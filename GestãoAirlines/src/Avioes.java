@@ -39,9 +39,7 @@ public class Avioes {
         this.capacidadeMaxima = capacidadeMaxima;
     }
 
-    // ===== MÉTODOS INICIAIS =====
 
-    // 👉 Exibe os dados do avião (base)
     public void exibirDados() {
         System.out.println("Código: " + codigo);
         System.out.println("Modelo: " + modelo);
