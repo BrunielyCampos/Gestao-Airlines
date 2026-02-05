@@ -1,4 +1,3 @@
-import java.util.List;
 
 public class Avioes {
 
@@ -46,7 +45,6 @@ public class Avioes {
         System.out.println("Capacidade Máxima: " + capacidadeMaxima);
     }
 
-    // 👉 Validação simples (você pode expandir depois)
     public boolean dadosValidos() {
         if (codigo <= 0) return false;
         if (modelo == null || modelo.isEmpty()) return false;
