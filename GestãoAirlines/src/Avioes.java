@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.Scanner;
 
 public class Avioes {
 
@@ -54,9 +56,7 @@ public class Avioes {
     }
 
     public String toString() {
-        // Você pode formatar melhor depois
         return "Avião [codigo=" + codigo + ", modelo=" + modelo +
                ", capacidade=" + capacidadeMaxima + "]";
     }
 }
-
