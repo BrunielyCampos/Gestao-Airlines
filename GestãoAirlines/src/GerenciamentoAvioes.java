@@ -3,7 +3,7 @@ public class GerenciamentoAvioes{
 
     private List<Avioes> listaAvioes = new LinkedList<>();
 
-    public void inserirAviao(Avioes aviao) {
+    public void inserirAviao(Avioes aviao){
         listaAvioes.add(aviao);
     }
 
@@ -87,6 +87,4 @@ public class GerenciamentoAvioes{
         }
         System.out.println("Avião não encontrado. Nenhum foi removido.");
     }
-
-    
 }
