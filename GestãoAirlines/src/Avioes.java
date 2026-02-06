@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class Avioes {
 
@@ -46,7 +47,6 @@ public class Avioes {
         System.out.println("Capacidade Máxima: " + capacidadeMaxima);
     }
 
-    // 👉 Validação simples (você pode expandir depois)
     public boolean dadosValidos() {
         if (codigo <= 0) return false;
         if (modelo == null || modelo.isEmpty()) return false;
@@ -56,9 +56,7 @@ public class Avioes {
     }
 
     public String toString() {
-        // Você pode formatar melhor depois
         return "Avião [codigo=" + codigo + ", modelo=" + modelo +
                ", capacidade=" + capacidadeMaxima + "]";
     }
 }
-

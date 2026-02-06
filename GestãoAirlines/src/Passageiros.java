@@ -1,12 +1,10 @@
-
+import java.util.PriorityQueue;
 
 public class Passageiros{
     private String nome;
     private String docIdentificacao;
     private String voo;
-    
 
-   
     public String getNome() {
         return nome;
     }
