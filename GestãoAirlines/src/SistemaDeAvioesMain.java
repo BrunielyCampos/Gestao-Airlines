@@ -27,7 +27,7 @@ public class SistemaDeAvioesMain {
                     break;
 
                 case 2:
-                    menuPassageiros(sc, fila);
+                    menuPassageiros(sc, fila, gerAvioes);
                     break;
 
                 case 3:
@@ -47,7 +47,6 @@ public class SistemaDeAvioesMain {
         sc.close();
     }
 
-    // 🔹 Submenu de Aviões
     private static void menuAvioes(Scanner sc, GerenciamentoAvioes ger) {
         int op;
 
@@ -82,11 +81,11 @@ public class SistemaDeAvioesMain {
                     System.out.println("Opção inválida.");
             }
 
-        } while (op != 0);
+        } 
+        while (op != 0);
     }
 
-    // 🔹 Submenu de Passageiros e Embarque
-    private static void menuPassageiros(Scanner sc, FilaEmbarque fila) {
+    private static void menuPassageiros(Scanner sc, FilaEmbarque fila, GerenciamentoAvioes gerAvioes) {
         int op;
 
         do {
@@ -94,39 +93,83 @@ public class SistemaDeAvioesMain {
             System.out.println("GESTÃO DE PASSAGEIROS E EMBARQUE");
             System.out.println("----------------------------------------");
             System.out.println("1 - Vender passagem");
-            System.out.println("2 - Inserir passageiro na fila comum");
-            System.out.println("3 - Inserir passageiro na fila prioritária");
-            System.out.println("4 - Embarcar próximo passageiro");
-            System.out.println("5 - Exibir filas de embarque");
+            System.out.println("2 - Inserir passageiro na fila prioritária");
+            System.out.println("3 - Embarcar próximo passageiro");
+            System.out.println("4 - Exibir filas de embarque");
             System.out.println("0 - Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
             op = sc.nextInt();
-            sc.nextLine(); // limpar buffer
+            sc.nextLine(); 
 
             switch (op) {
                 case 1:
                     System.out.print("Nome: ");
                     String nome = sc.nextLine();
+
                     System.out.print("Documento: ");
                     long doc = sc.nextLong();
-                    sc.nextLine(); 
-                    System.out.print("Voo: ");
-                    String voo = sc.nextLine();
-                    fila.venderPassagem(nome, doc, voo);
+                    sc.nextLine();
+
+                    System.out.print("Código do avião: ");
+                    long codAviao = sc.nextLong();
+                    sc.nextLine();
+
+                    Avioes aviao = gerAvioes.buscarAviaoPorCodigo(codAviao);
+                    if (aviao == null) {
+                        System.out.println("Avião não encontrado! Cadastre primeiro.");
+                        break;
+                    }
+                
+                    System.out.print("Código do voo: ");
+                    String codVoo = sc.nextLine();
+                
+                    System.out.print("Origem: ");
+                    String origem = sc.nextLine();
+                
+                    System.out.print("Destino: ");
+                    String destino = sc.nextLine();
+                
+                    Voo vooObj = new Voo(codVoo, origem, destino, aviao);
+                
+                    fila.venderPassagem(nome, doc, vooObj);
                     break;
 
                 case 2:
                     System.out.print("Nome: ");
                     nome = sc.nextLine();
+
                     System.out.print("Documento: ");
                     doc = sc.nextLong();
-                    sc.nextLine(); 
-                    System.out.print("Voo: ");
-                    voo = sc.nextLine();
-                    System.out.print("Prioridade (ex: 1, 2, 3...): ");
+                    sc.nextLine();
+
+                    System.out.print("Código do avião: ");
+                    codAviao = sc.nextLong();
+                    sc.nextLine();
+
+                    aviao = gerAvioes.buscarAviaoPorCodigo(codAviao);
+                    if (aviao == null) {
+                        System.out.println("Avião não encontrado!");
+                        break;
+                    }
+                
+                    System.out.print("Código do voo: ");
+                    codVoo = sc.nextLine();
+                
+                    System.out.print("Origem: ");
+                    origem = sc.nextLine();
+                
+                    System.out.print("Destino: ");
+                    destino = sc.nextLine();
+                
+                    System.out.print("Prioridade: ");
                     int prioridade = sc.nextInt();
-                    fila.inserirPrioritario(nome, doc, voo, prioridade);
+                    sc.nextLine();
+                
+                    vooObj = new Voo(codVoo, origem, destino, aviao);
+                
+                    fila.inserirPrioritario(nome, doc, vooObj, prioridade);
                     break;
+
 
                 case 3:
                     fila.embarcarProximo();
