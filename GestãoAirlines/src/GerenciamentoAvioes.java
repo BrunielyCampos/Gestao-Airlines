@@ -3,8 +3,14 @@ public class GerenciamentoAvioes{
 
     private List<Avioes> listaAvioes = new LinkedList<>();
 
-    public void inserirAviao(Avioes aviao){
+    
+
+    public void inserirAviaoLista(Avioes aviao){
         listaAvioes.add(aviao);
+    }
+
+    public void removerAviaoLista(Avioes aviao){
+        listaAvioes.remove(aviao);
     }
 
     public void inserirAviao(Scanner sc){
@@ -22,7 +28,7 @@ public class GerenciamentoAvioes{
         Avioes aviao = new Avioes(codigo, modelo, capacidade);
 
         if (aviao.dadosValidos()) {
-            inserirAviao(aviao);
+            inserirAviaoLista(aviao);
             System.out.println("Avião criado com sucesso!");
             aviao.exibirDados();
         } 
