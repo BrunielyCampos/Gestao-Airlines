@@ -3,8 +3,6 @@ public class GerenciamentoAvioes{
 
     private List<Avioes> listaAvioes = new LinkedList<>();
 
-    
-
     public void inserirAviaoLista(Avioes aviao){
         listaAvioes.add(aviao);
     }
@@ -13,7 +11,7 @@ public class GerenciamentoAvioes{
         listaAvioes.remove(aviao);
     }
 
-    public void inserirAviao(Scanner sc){
+    public Avioes inserirAviao(Scanner sc){
 
         System.out.print("Digite o código do avião: ");
         long codigo = sc.nextLong();
@@ -30,12 +28,12 @@ public class GerenciamentoAvioes{
         if (aviao.dadosValidos()) {
             inserirAviaoLista(aviao);
             System.out.println("Avião criado com sucesso!");
-            aviao.exibirDados();
+            return aviao;
         } 
         else {
             System.out.println("Dados inválidos. Avião não criado.");
         }
-
+        return null;
     }
 
     public void exibirAviao(Scanner sc){
@@ -87,7 +85,7 @@ public class GerenciamentoAvioes{
         return null;
     }
 
-    public void removerAviao(Scanner sc){
+    public Avioes removerAviao(Scanner sc){
 
         System.out.print("Digite o código do avião a remover: ");
         long codigo = sc.nextLong();
@@ -95,11 +93,14 @@ public class GerenciamentoAvioes{
         for (int i = 0; i < listaAvioes.size(); i++) {
             Avioes a = listaAvioes.get(i);
             if (a.getCodigo() == codigo) {
-                listaAvioes.remove(i);
+                listaAvioes.remove(i); 
                 System.out.println("Avião removido com sucesso.");
-                return;
+                return a;
             }
         }
         System.out.println("Avião não encontrado. Nenhum foi removido.");
+        return null; // 👈 aqui
     }
+
+    
 }

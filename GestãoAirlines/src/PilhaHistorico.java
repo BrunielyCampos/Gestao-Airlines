@@ -1,46 +1,59 @@
 import java.util.Stack;
 
-public class PilhaHistorico<T> {
+public class PilhaHistorico {
 
-   
-    private Stack<Operacao<T>> historico = new Stack<>();
+    private Stack<Operacao<?>> historico = new Stack<>();
 
-    public void RegistrarOperacao(Operacao<T> operacao) {
-        this.historico.push(operacao);
+    public void registrar(Operacao<?> op) {
+        historico.push(op);
     }
 
-    public Operacao<T> DesfazerOperacao() {
-        if (!historico.isEmpty()) {
-            return historico.pop();
-        }
-        return null;
-    }
-
-    public void executarDesfazer(GerenciamentoAvioes ga, FilaEmbarque fe) {
-        Operacao<T> op = DesfazerOperacao();
-        
-        if (op == null) {
+    public void desfazer(GerenciamentoAvioes ga, FilaEmbarque fe) {
+        if (historico.isEmpty()) {
             System.out.println("Nada para desfazer.");
             return;
         }
 
+        Operacao<?> op = historico.pop();
+
+        // ==== AVIÕES ====
         if (op.getDado() instanceof Avioes) {
             Avioes a = (Avioes) op.getDado();
-            if (op.getTipoAcao().equals("ADD")){
+
+            if (op.getTipoAcao().equals("ADD")) {
                 ga.removerAviaoLista(a);
+                System.out.println("Desfeito: cadastro do avião " + a.getCodigo());
             } 
-            else{
+            else if (op.getTipoAcao().equals("REMOVE")) {
                 ga.inserirAviaoLista(a);
+                System.out.println("Desfeito: remoção do avião " + a.getCodigo());
+            }
+        }
+
+        // ==== PASSAGEIROS ====
+        else if (op.getDado() instanceof Passageiro) {
+            Passageiro p = (Passageiro) op.getDado();
+
+            if (op.getTipoAcao().equals("ADD")) {
+                fe.removerPassageiro(p);
+                System.out.println("Desfeito: venda da passagem de " + p.getNome());
             } 
-        } 
-        else if (op.getDado() instanceof Passageiros) {
-            Passageiros p = (Passageiros) op.getDado();
+            else if (op.getTipoAcao().equals("EMBARQUE")) {
+                fe.reinserirPassageiro(p);
+                System.out.println("Desfeito: embarque de " + p.getNome());
+            }
         }
     }
 
     public void listar() {
-        for (Operacao<T> op : historico) {
-            System.out.println("Ação: " + op.getTipoAcao());
+        if (historico.isEmpty()) {
+            System.out.println("Histórico vazio.");
+            return;
+        }
+
+        System.out.println("=== HISTÓRICO DE OPERAÇÕES ===");
+        for (Operacao<?> op : historico) {
+            System.out.println("Ação: " + op.getTipoAcao() + " | Objeto: " + op.getDado());
         }
     }
 }

@@ -35,10 +35,10 @@ public class FilaEmbarque{
         return false;
     }
 
-    public void venderPassagem(String nome, long doc, Voo voo) {
+    public Passageiro venderPassagem(String nome, long doc, Voo voo) {
         if (documentoJaExiste(doc)) {
             System.out.println("Documento já cadastrado! Não é possível vender outra passagem com o mesmo documento.");
-            return;
+            return null;
         }
 
         contadorChegada++;
@@ -46,20 +46,22 @@ public class FilaEmbarque{
         filaComum.add(p);
 
         System.out.println("Passagem vendida. Passageiro inserido na fila comum.");
+        return p; // 
     }   
 
-    public void inserirPrioritario(String nome, long doc, Voo voo, int prioridade) {
+    public Passageiro inserirPrioritario(String nome, long doc, Voo voo, int prioridade) {
         if (documentoJaExiste(doc)){
             System.out.println("Documento já cadastrado! Não é possível cadastrar outro passageiro com o mesmo documento.");
-            return;
+            return null;
         }
         contadorChegada++;
         Passageiro p = new Passageiro(nome, doc, voo, prioridade, contadorChegada);
         filaPrioritaria.add(p);
         System.out.println("Passageiro inserido na fila prioritária.");
+        return p;
     }
 
-    public void embarcarProximo() {
+    public Passageiro embarcarProximo() {
         Passageiro p = null;
 
         if (!filaPrioritaria.isEmpty()) {
@@ -76,6 +78,7 @@ public class FilaEmbarque{
         else {
             System.out.println("Não há passageiros para embarcar.");
         }
+        return p;
     }
 
     public void exibirFilas() {
@@ -87,6 +90,20 @@ public class FilaEmbarque{
         System.out.println("=== FILA COMUM ===");
         for (Passageiro p : filaComum) {
             System.out.println(p);
+        }
+    }
+
+    public void removerPassageiro(Passageiro p) {
+        filaComum.remove(p);
+        filaPrioritaria.remove(p);
+    }
+
+    public void reinserirPassageiro(Passageiro p) {
+        if (p.getPrioridade() > 0) {
+            filaPrioritaria.add(p);
+        } 
+        else {
+            filaComum.add(p);
         }
     }
 }
