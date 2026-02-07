@@ -78,6 +78,15 @@ public class GerenciamentoAvioes{
         System.out.println("Avião não encontrado.");
     }
 
+    public Avioes buscarAviaoPorCodigo(long codigo){
+        for (Avioes a : listaAvioes) {
+            if (a.getCodigo() == codigo) {
+                return a;
+            }
+        }
+        return null;
+    }
+
     public void removerAviao(Scanner sc){
 
         System.out.print("Digite o código do avião a remover: ");

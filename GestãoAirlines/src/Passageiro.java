@@ -1,12 +1,12 @@
-public class Passageiros {
+public class Passageiro {
 
     private String nome;
     private long docIdentificacao;
-    private String voo;
+    private Voo voo;
     private int prioridade;     
-    private int ordemChegada;    // Para desempate quando a prioridade for igual
+    private int ordemChegada;    
 
-    public Passageiros(String nome, long docIdentificacao, String voo, int prioridade, int ordemChegada) {
+    public Passageiro(String nome, long docIdentificacao, Voo voo, int prioridade, int ordemChegada) {
         this.nome = nome;
         this.docIdentificacao = docIdentificacao;
         this.voo = voo;
@@ -14,16 +14,14 @@ public class Passageiros {
         this.ordemChegada = ordemChegada;
     }
 
-    // Construtor sem prioridade (fila comum)
-    public Passageiros(String nome, long docIdentificacao, String voo, int ordemChegada) {
+    public Passageiro(String nome, long docIdentificacao, Voo voo, int ordemChegada) {
         this.nome = nome;
         this.docIdentificacao = docIdentificacao;
         this.voo = voo;
-        this.prioridade = 0; // 0 = sem prioridade
+        this.prioridade = 0; 
         this.ordemChegada = ordemChegada;
     }
 
-    // Getters e Setters
     public String getNome() {
         return nome;
     }
@@ -32,7 +30,7 @@ public class Passageiros {
         return docIdentificacao;
     }
 
-    public String getVoo() {
+    public Voo getVoo() {
         return voo;
     }
 
@@ -44,11 +42,10 @@ public class Passageiros {
         return ordemChegada;
     }
 
-    // Exibir dados do passageiro
     public void exibirDados() {
         System.out.println("Nome: " + nome);
         System.out.println("Documento: " + docIdentificacao);
-        System.out.println("Voo: " + voo);
+        System.out.println("Voo: " + voo.getCodigoVoo());
         System.out.println("Prioridade: " + prioridade);
         System.out.println("Ordem de chegada: " + ordemChegada);
     }

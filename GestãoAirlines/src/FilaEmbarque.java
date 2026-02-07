@@ -4,17 +4,15 @@ import java.util.Queue;
 import java.util.Comparator;
 public class FilaEmbarque{
 
-    private Queue<Passageiros> filaComum;
-    private PriorityQueue<Passageiros> filaPrioritaria;
+    private Queue<Passageiro> filaComum;
+    private PriorityQueue<Passageiro> filaPrioritaria;
     private int contadorChegada = 0;
 
     public FilaEmbarque(){
         filaComum = new LinkedList<>();
-
-        // Comparator para prioridade + ordem de chegada
-        filaPrioritaria = new PriorityQueue<>(new Comparator<Passageiros>(){
+        filaPrioritaria = new PriorityQueue<>(new Comparator<Passageiro>(){
             @Override
-            public int compare(Passageiros p1, Passageiros p2) {
+            public int compare(Passageiro p1, Passageiro p2) {
                 if (p1.getPrioridade() != p2.getPrioridade()) {
                     return Integer.compare(p2.getPrioridade(), p1.getPrioridade()); // maior prioridade primeiro
                 }
@@ -22,26 +20,47 @@ public class FilaEmbarque{
             }
         });
     }
+    private boolean documentoJaExiste(long doc) {
+        for (Passageiro p : filaComum) {
+            if (p.getDocIdentificacao() == doc) {
+                return true;
+            }
+        }
 
-    // Venda de passagem (cria passageiro)
-    public void venderPassagem(String nome, long doc, String voo) {
-        contadorChegada++;
-        Passageiros p = new Passageiros(nome, doc, voo, contadorChegada);
-        filaComum.add(p);
-        System.out.println("Passagem vendida. Passageiro inserido na fila comum.");
+        for (Passageiro p : filaPrioritaria) {
+            if (p.getDocIdentificacao() == doc) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    // Inserir passageiro com prioridade
-    public void inserirPrioritario(String nome, long doc, String voo, int prioridade) {
+    public void venderPassagem(String nome, long doc, Voo voo) {
+        if (documentoJaExiste(doc)) {
+            System.out.println("Documento já cadastrado! Não é possível vender outra passagem com o mesmo documento.");
+            return;
+        }
+
         contadorChegada++;
-        Passageiros p = new Passageiros(nome, doc, voo, prioridade, contadorChegada);
+        Passageiro p = new Passageiro(nome, doc, voo, contadorChegada);
+        filaComum.add(p);
+
+        System.out.println("Passagem vendida. Passageiro inserido na fila comum.");
+    }   
+
+    public void inserirPrioritario(String nome, long doc, Voo voo, int prioridade) {
+        if (documentoJaExiste(doc)){
+            System.out.println("Documento já cadastrado! Não é possível cadastrar outro passageiro com o mesmo documento.");
+            return;
+        }
+        contadorChegada++;
+        Passageiro p = new Passageiro(nome, doc, voo, prioridade, contadorChegada);
         filaPrioritaria.add(p);
         System.out.println("Passageiro inserido na fila prioritária.");
     }
 
-    // Embarcar próximo passageiro
     public void embarcarProximo() {
-        Passageiros p = null;
+        Passageiro p = null;
 
         if (!filaPrioritaria.isEmpty()) {
             p = filaPrioritaria.poll();
@@ -59,15 +78,14 @@ public class FilaEmbarque{
         }
     }
 
-    // Exibir filas
     public void exibirFilas() {
         System.out.println("=== FILA PRIORITÁRIA ===");
-        for (Passageiros p : filaPrioritaria) {
+        for (Passageiro p : filaPrioritaria) {
             System.out.println(p);
         }
 
         System.out.println("=== FILA COMUM ===");
-        for (Passageiros p : filaComum) {
+        for (Passageiro p : filaComum) {
             System.out.println(p);
         }
     }
